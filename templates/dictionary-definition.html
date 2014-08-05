@@ -1,0 +1,59 @@
+<div class="dictionary-definition">
+    <h2><%= ew['#text'] %></h2>
+    <h4>(<%= fl['#text'] %>)</h4>
+    <ul>
+
+        <li>
+            <h4>Definition(s)</h4>
+            <ul>
+                <% _.forEach(def.dt, function(definition){ %>
+
+                    <li><%= definition['#text']%></li>
+
+                <% }) %>
+            </ul>
+        </li>
+
+        <li>
+            <h4>Etymology</h4>
+            <ul>
+                <%
+
+                _.forEach(
+                    _.zip(et.it, et['#text']),
+
+                    function(etymology_array){ %>
+                        <%
+                            if(
+                                !etymology_array[0]
+                                ||
+                                !etymology_array[1]
+                            ){
+                                return
+                            }
+                        %>
+                        <li>
+                            <span>
+                                <%= etymology_array[0]['#text'] %>
+                            </span>
+
+                            <%= etymology_array[1] %>
+                        </li>
+
+                    <% }) %>
+            </ul>
+        </li>
+
+        <li>
+            <h4>Pronunciation</h4>
+            <i><%= pr['#text'] %></i>
+            <button class="sound-button" url="<%= sound.wav['#text'] %>">(play sound)</button>
+        </li>
+
+        <li>
+            <h4>Origin</h4>
+            <i><%= def.date['#text'] %></i>
+        </li>
+
+    </ul>
+</div>
