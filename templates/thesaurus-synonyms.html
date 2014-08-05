@@ -1,0 +1,70 @@
+<div class="thesaurus-synonymns">
+    <h4>Example Sentence(s)</h4>
+    <ul>
+        <% if(sens && sens.length){
+
+            _.forEach(sens, function(synonym){ %>
+
+                <li>
+                    <%
+                        var theWord = '<i>'+term.hw['#text']+'</i>';
+                        if(synonym.vi['#text'] instanceof Array) {
+                            synonym.vi['#text'].splice(1, 0, theWord);
+                    %>
+                        <p>
+                            <%= synonym.vi['#text'].join(" ") %>
+                        </p>
+
+                    <% } else { %>
+
+                        <p>
+                            <%= synonym.vi['#text'] + ' ' + theWord %>
+                        </p>
+
+                    <% } %>
+
+                </li>
+
+            <% })
+
+        } else { %>
+            <li> No fucking synonyms. </li>
+        <% } %>
+    </ul>
+    <h4>Synonym(s)</h4>
+    <ul>
+        <% if(sens && sens.length){
+
+            _.forEach(
+                sens,
+
+                function(synonym){
+
+                    if(!synonym.syn.it){
+                        synonym.syn.it = [{'#text':''}];
+                    }
+
+                    if(! (synonym.syn.it instanceof Array) ){
+                        synonym.syn.it = [synonym.syn.it];
+                    }
+
+                    if(! (synonym.syn['#text'] instanceof Array) ){
+                        synonym.syn['#text'] = [synonym.syn['#text']];
+                    }
+
+                    synonym.syn.it = _.pluck(synonym.syn.it, '#text');
+
+                    var zippedWords = _.zip(synonym.syn['#text'], synonym.syn.it);
+                %>
+
+                    <li>
+                        <%= _.flatten(zippedWords).join(" ") %>
+                    </li>
+
+                <% })
+
+        } else { %>
+            <li> No fucking synonyms. </li>
+        <% } %>
+    </ul>
+</div>

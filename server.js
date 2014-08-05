@@ -60,6 +60,24 @@ app.get('/dictionary/:q/:key', function(req, res){
     }
 })
 
+app.get('/thesaurus/:q/:key', function(req, res){
+    // http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/
+    // http://www.dictionaryapi.com/api/v1/references/collegiate/xml/
+    var url = "http://www.dictionaryapi.com/api/v1/references/thesaurus/xml/" + req.params.q +'?key='+req.params.key;
+    reportProxy(req, url);
+    var cached = requestCache[url];
+    if(cached){
+        console.log('sending cached');
+        res.set('Content-Type', 'text/xml');
+        res.send(cached);
+    } else {
+        req.pipe(request(url, function(err, response, body){
+            if(err){ return res.send(404); }
+            requestCache[url] = body;
+        })).pipe(res);
+    }
+})
+
 app.use(express.static(path.join(__dirname, '')));
 
 http.createServer(app).listen(app.get('port'), function() {

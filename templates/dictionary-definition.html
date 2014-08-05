@@ -6,11 +6,17 @@
         <li>
             <h4>Definition(s)</h4>
             <ul>
-                <% _.forEach(def.dt, function(definition){ %>
+                <% if(def && def.dt && def.dt.length){
 
-                    <li><%= definition['#text']%></li>
+                    _.forEach(def.dt, function(definition){ %>
 
-                <% }) %>
+                        <li><%= definition['#text']%></li>
+
+                    <% })
+
+                } else { %>
+                    <li> No fucking definitions. </li>
+                <% } %>
             </ul>
         </li>
 
@@ -19,28 +25,33 @@
             <ul>
                 <%
 
-                _.forEach(
-                    _.zip(et.it, et['#text']),
+                if(et && et.it && et['#text']){
 
-                    function(etymology_array){ %>
-                        <%
-                            if(
-                                !etymology_array[0]
-                                ||
-                                !etymology_array[1]
-                            ){
-                                return
-                            }
-                        %>
-                        <li>
-                            <span>
-                                <%= etymology_array[0]['#text'] %>
-                            </span>
+                    _.forEach(
+                        _.zip(et.it, et['#text']),
 
-                            <%= etymology_array[1] %>
-                        </li>
+                        function(etymology_array){ %>
+                            <%
+                                if(
+                                    !etymology_array[0]
+                                    ||
+                                    !etymology_array[1]
+                                ){
+                                    return
+                                }
+                            %>
+                            <li>
+                                <span>
+                                    <%= etymology_array[0]['#text'] %>
+                                </span>
 
-                    <% }) %>
+                                <%= etymology_array[1] %>
+                            </li>
+
+                        <% })
+                } else { %>
+                    <li> No fucking history. </li>
+                <% } %>
             </ul>
         </li>
 
