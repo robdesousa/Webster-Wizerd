@@ -103,13 +103,14 @@ WebsterWizerd.prototype.handleEvents = function() {
 
     $('.container').on('submit', 'form', function(event) {
         event.preventDefault();
-        if (charlie.value === "") {
-            alert("NO CHARLES NO");
+        // console.log(charlie.value, charlie.value.toLowerCase());
+        if (charlie.value === "" ) {
+            alert("Either Capitalized Letters or No Letter Entered!");
             return;
         }
-        self.showResults(charlie.value)
+        self.showResults(charlie.value.toLowerCase());
     })
-
+ 
     $('.container').on('click', '.sound-button', function() {
         var prefix = "http://media.merriam-webster.com/soundc11/";
         var url = this.getAttribute("url");
@@ -121,7 +122,6 @@ WebsterWizerd.prototype.handleEvents = function() {
         tag.play();
     })
 }
-
 
 
 //                              __  _                               __
