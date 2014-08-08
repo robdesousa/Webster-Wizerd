@@ -107,7 +107,6 @@ WebsterWizerd.prototype.showResults = function(word) {
     )
 }
 
-
 // function to retrieve the template
 WebsterWizerd.prototype.getTemplate = function(template_url) {
     return $.get(template_url).then(
@@ -123,16 +122,6 @@ WebsterWizerd.prototype.handleEvents = function() {
     var self = this;
     var charlie = document.querySelector('#charlie');
 
-    $('.container').on('submit', 'form', function(event) {
-        event.preventDefault();
-        // console.log(charlie.value, charlie.value.toLowerCase());
-        if (charlie.value === "" ) {
-            alert("Either Capitalized Letters or No Letter Entered!");
-            return;
-        }
-        self.showResults(charlie.value.toLowerCase());
-    })
- 
     $('.container').on('click', '.sound-button', function() {
         var prefix = "http://media.merriam-webster.com/soundc11/";
         var url = this.getAttribute("url");
@@ -145,6 +134,57 @@ WebsterWizerd.prototype.handleEvents = function() {
     })
 }
 
+//     ____              __
+//    / __ \____  __  __/ /____  _____
+//   / /_/ / __ \/ / / / __/ _ \/ ___/
+//  / _, _/ /_/ / /_/ / /_/  __/ /
+// /_/ |_|\____/\__,_/\__/\___/_/
+
+// Backbone lingo for starting our router function
+var Router = Backbone.Router.extend({
+    // a new instance of 'wizerd' is created
+    wizerd: new WebsterWizerd(
+        '8af24765-6a55-49b7-bec0-e84f6dc7a277',
+        '070ba04d-4a8a-4e5b-be08-218c72522083'
+    ),
+    // create a routes object with a route parameter (from our url)
+    routes: {
+        ":something": "search"
+    },
+    // function that takes the route parameter and passes it to showResults
+    search: function(word) {
+        this.wizerd.showResults(word);
+    }
+});
+
+
+
+//     ____             __   __                              _
+//    / __ )____ ______/ /__/ /_  ____  ____  ___     _   __(_)__ _      _______
+//   / __  / __ `/ ___/ //_/ __ \/ __ \/ __ \/ _ \   | | / / / _ \ | /| / / ___/
+//  / /_/ / /_/ / /__/ ,< / /_/ / /_/ / / / /  __/   | |/ / /  __/ |/ |/ (__  )
+// /_____/\__,_/\___/_/|_/_.___/\____/_/ /_/\___/    |___/_/\___/|__/|__/____/
+
+// backbone lingo to start our view function
+var HeaderView = Backbone.View.extend({
+    // locating .header element in DOM
+    el: document.querySelector('.header'),
+    // handle "form submit" event, calls search function
+    events: {
+        "submit form": "search",
+    },
+    // 1) stop refreshing the page,
+    // 2) look for the specific 'input' element inside this view,
+    // 3) if the input is not empty, change the hash route
+    search: function(event) {
+        event.preventDefault();
+        var input = this.el.querySelector('input');
+        if (input.value !== "") {
+            window.location.hash = '#' + input.value;
+        }
+    }
+});
+
 
 //                              __  _                               __
 //   ___  _  _____  _______  __/ /_(_)___  ____     _________  ____/ /__
@@ -156,7 +196,13 @@ WebsterWizerd.prototype.handleEvents = function() {
 window.onload = app;
 
 function app() {
-    var thesaurus_key = '070ba04d-4a8a-4e5b-be08-218c72522083';
-    var dictionary_key = '8af24765-6a55-49b7-bec0-e84f6dc7a277';
-    wizerd = new WebsterWizerd(dictionary_key, thesaurus_key);
+
+    myHeaderView = new HeaderView();
+
+    var myRouter = new Router();
+    if (!Backbone.history.start()) {
+        myRouter.navigate("magic", {
+            trigger: true
+        });
+    }
 }

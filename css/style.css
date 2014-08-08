@@ -1,20 +1,140 @@
 *, *:after, *:before {
     box-sizing: border-box;
-    transition: all .25s ease;
 }
 
 /* ---------------- container section */
 
 .container {
-	max-width: 800px;
+	max-width: 600px;
 	margin: 0 auto;
+	padding: 0.5em;
+	font-family:;
 }
 
+ul{
+	padding: 0 0 0 0;
+	list-style-type: none;
+}
 /* ---------------- header section */
+
 
 .header {
 	text-align: center;
-	border-radius: 5px;
-	border: 2px red solid ;
+	color: blue;
 }
 
+.header h1 {
+	color: red;
+	float: right;
+}
+
+.header form {
+	float: right;
+	position: relative;
+	padding: 1em 0;
+	/*padding-right: 10em;*/
+	z-index: 2;
+}
+
+.header form input {
+	font-size: 1em;
+}
+
+::-webkit-input-placeholder {
+   color: blue;
+}
+
+.header form input {
+	color: blue;
+	width: 100%;
+	height: 2em;
+	padding: 2em 2em;
+	border-radius: 5px;
+	background-color: lightblue;
+}
+
+.header form button {
+	position: absolute;
+	display: inline-block;
+	width: 8em;
+	height: 2em;
+	top: 1em;
+	right: 1em;
+}
+
+/* ---------------- grids */
+.grid {
+	font-size: 0.1px; /*hide whitespace between elements*/
+	text-align: justify;
+}
+
+.grid:after {
+	display: inline-block;
+	width: 100%;
+	content: '';
+}
+
+.grid > * {
+	font-size: 16px;
+	font-size: 1rem;
+	display: inline-block;
+	vertical-align: top;
+	width: 100%;
+	transition: all .25s ease;
+}
+
+@media (min-width: 480px){
+	.grid-2-480 > * {
+		width: 48%;
+	}
+}
+
+@media (min-width: 800px){
+	.grid-2-800 > * {
+		width: 48%;
+	}
+	.grid-3-800 > * {
+		width: 30%;
+	}
+}
+
+@media (min-width: 1024px){
+	.grid-2-1024 > * {
+		width: 48%;
+	}
+	.grid-3-1024 > * {
+		width: 30%;
+	}
+}
+
+/* ---------------- data sections */
+
+.dictionary-definition, .thesaurus-synonyms {
+	animation: fadeUp .5s ease both;
+}
+.dictionary-definition > ul, .thesaurus-synonyms > ul {
+	padding-left: 0;
+	padding-bottom: 32px;
+}
+.dictionary-definition ul li ul, .thesaurus-synonyms ul li ul {
+	padding-left: 1.25em;
+	padding-bottom: 1em;
+}
+.dictionary-definition ul li h4, .thesaurus-synonyms ul li h4 {
+	border-bottom: #ccc solid .5em;
+	padding-bottom: .5em;
+}
+
+
+/* ---------------- animations */
+
+@keyframes fadeUp {
+	0% {
+		opacity: 0;
+		transform: translateY(2em);
+	}
+	100% {
+		opacity: 1;
+		transform: translateY(0px);
+	}
+}
